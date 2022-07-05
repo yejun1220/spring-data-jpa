@@ -11,9 +11,9 @@ spring:
     properties:
       hibernate:
         #       show_sql: true
-        # console¿¡ ³²±â´Â °Íº¸´Ü ·Î±×·Î ³²±â´Â °ÍÀÌ ÁÁ´Ù.
+        # consoleì— ë‚¨ê¸°ëŠ” ê²ƒë³´ë‹¨ ë¡œê·¸ë¡œ ë‚¨ê¸°ëŠ” ê²ƒì´ ì¢‹ë‹¤.
         format_sql: true
-        # sqlÀÌ Æ÷¸ËÇüÅÂ·Î ¿¹»Ú°Ô ³ª¿Â´Ù.
+        # sqlì´ í¬ë§·í˜•íƒœë¡œ ì˜ˆì˜ê²Œ ë‚˜ì˜¨ë‹¤.
 
 logging.level:
   org.hibernate.SQL: debug
