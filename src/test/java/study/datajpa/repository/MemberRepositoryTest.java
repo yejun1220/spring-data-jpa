@@ -65,4 +65,35 @@ public class MemberRepositoryTest {
         assertThat(deletedCount).isEqualTo(0);
 
     }
+
+    @Test
+    // 메서드 이름으로 쿼리 생성
+    public void findByUsernameAndAgeGreaterThan() {
+        Member m1 = new Member("A", 10);
+        Member m2 = new Member("B", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUsernameAndAgeGreaterThan("B", 10);
+
+        assertThat(result.get(0).getUsername()).isEqualTo("B");
+    }
+
+    @Test
+    // 전체 조회
+    public void findTestBy() {
+        Member m1 = new Member("A", 10);
+        Member m2 = new Member("B", 20);
+        Member m3 = new Member("C", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+        memberRepository.save(m3);
+
+        List<Member> result = memberRepository.findTestBy();
+
+        assertThat(result.size()).isEqualTo(3);
+
+        List<Member> result2 = memberRepository.findTop2By();
+        assertThat(result.get(1).getUsername()).isEqualTo("B");
+    }
 }

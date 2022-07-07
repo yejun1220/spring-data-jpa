@@ -23,6 +23,16 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
     private String username;
+
+    public Member(String username, int age) {
+        this.username = username;
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
     private int age;
 
     @ManyToOne(fetch = LAZY)
