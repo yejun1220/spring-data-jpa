@@ -96,4 +96,16 @@ public class MemberRepositoryTest {
         List<Member> result2 = memberRepository.findTop2By();
         assertThat(result.get(1).getUsername()).isEqualTo("B");
     }
+
+    @Test
+    public void namedQuery() {
+        Member m1 = new Member("A", 10);
+        Member m2 = new Member("B", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUsername("A");
+        Member findMember = result.get(0);
+        assertThat(findMember).isEqualTo(m1);
+    }
 }
