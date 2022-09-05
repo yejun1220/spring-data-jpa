@@ -141,6 +141,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    // DTO 조회하기
     public void findMemberDto() {
         Team team = new Team("teamA");
         teamRepository.save(team);
