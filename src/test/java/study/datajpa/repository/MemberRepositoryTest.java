@@ -21,8 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Rollback(value = false)
 public class MemberRepositoryTest {
 
-    @Autowired MemberRepository memberRepository;
-    @Autowired TeamRepository teamRepository;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    TeamRepository teamRepository;
 
     @Test
     public void testMember() {
@@ -32,7 +34,7 @@ public class MemberRepositoryTest {
         Optional<Member> byId = memberRepository.findById(member.getId());
 
 
-        if(byId.isPresent()) {
+        if (byId.isPresent()) {
             Member findMember = byId.get();
             assertThat(findMember.getId()).isEqualTo(savedMember.getId());
             assertThat(findMember).isEqualTo(savedMember);
@@ -170,5 +172,32 @@ public class MemberRepositoryTest {
         for (Member member : result) {
             System.out.println("member = " + member);
         }
+    }
+
+    @Test
+    // @Query 사용
+    public void returnType() {
+        Member m1 = new Member("AA", 10);
+        Member m2 = new Member("BB", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result1 = memberRepository.findListByUsername("AA");
+        System.out.println("result1 = " + result1);
+
+        Member result2 = memberRepository.findMemberByUsername("AA");
+        System.out.println("result2 = " + result2);
+
+        Optional<Member> result3 = memberRepository.findOptionalByUsername("AA");
+        System.out.println("result3 = " + result3.get());
+
+        // 반환 타입이 list인 경우, 없는 값을 조회하면 빈 리스트를 반환해준다.(에러 발생 X)
+        List<Member> result4 = memberRepository.findListByUsername("C");
+        System.out.println("result4 = " + result4);
+
+        // 반환 타입이 list가 아닌 경우, 없는 값을 조회하면 null을 반환해준다.(에러 발생 X)
+        // 원래는 에러가 발생하나 Spring Data Jpa 가 try catch로 null을 반환해준다.
+        Member result5 = memberRepository.findMemberByUsername("C");
+        System.out.println("result5 = " + result5);
     }
 }
