@@ -14,6 +14,8 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,9 @@ public class MemberRepositoryTest {
     MemberRepository memberRepository;
     @Autowired
     TeamRepository teamRepository;
+
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void testMember() {
@@ -246,5 +251,29 @@ public class MemberRepositoryTest {
 
         // slice 이용하여 가져오기
 //        slice.getContent();
+    }
+
+    @Test
+    public void bulkUpdate() {
+        // given
+        memberRepository.save(new Member("A", 10));
+        memberRepository.save(new Member("B", 20));
+        memberRepository.save(new Member("C", 30));
+        memberRepository.save(new Member("D", 40));
+        memberRepository.save(new Member("E", 50));
+
+        int age = 20;
+
+        // when
+        int resultCount = memberRepository.bulkAgePlus(age);
+
+        em.flush();
+        em.clear();
+        List<Member> member = memberRepository.findByUsername("B");
+        Member findMember = member.get(0);
+
+        // then
+        assertThat(resultCount).isEqualTo(4);
+        assertThat(findMember.getAge()).isEqualTo(21);
     }
 }

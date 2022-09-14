@@ -104,4 +104,22 @@ class MemberJpaRepositoryTest {
         assertThat(findList.get(0).getUsername()).isEqualTo("B");
         assertThat(totalCount).isEqualTo(5);
     }
+
+    @Test
+    public void bulkUpdate() {
+        // given
+        memberJpaRepository.save(new Member("A", 10));
+        memberJpaRepository.save(new Member("B", 20));
+        memberJpaRepository.save(new Member("C", 30));
+        memberJpaRepository.save(new Member("D", 40));
+        memberJpaRepository.save(new Member("E", 50));
+
+        int age = 20;
+
+        // when
+        int result = memberJpaRepository.bulkAgePlus(age);
+
+        // then
+        assertThat(result).isEqualTo(4);
+    }
 }
