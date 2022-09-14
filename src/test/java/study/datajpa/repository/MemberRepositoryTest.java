@@ -300,6 +300,35 @@ public class MemberRepositoryTest {
             System.out.println("member.getTeam().getClass() = " + member.getTeam().getClass());
             System.out.println("member.getTeam().getTeamName() = " + member.getTeam().getTeamName());
         }
+    }
 
+    @Test
+    public void queryHint() {
+        // given
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
+
+        // when
+        // hint로 readOnly를 설정해주었다.
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+
+        // then
+        findMember.setUsername("member2");
+
+        em.flush();
+    }
+
+    public void lock() {
+        // given
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
+
+        // when
+        // hint로 readOnly를 설정해주었다.
+        List<Member> result = memberRepository.findLockByUsername("member1");
     }
 }
