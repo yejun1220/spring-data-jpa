@@ -4,6 +4,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
@@ -39,7 +43,6 @@ public class MemberRepositoryTest {
             assertThat(findMember.getId()).isEqualTo(savedMember.getId());
             assertThat(findMember).isEqualTo(savedMember);
         }
-
     }
 
     @Test
@@ -199,5 +202,49 @@ public class MemberRepositoryTest {
         // 원래는 에러가 발생하나 Spring Data Jpa 가 try catch로 null을 반환해준다.
         Member result5 = memberRepository.findMemberByUsername("C");
         System.out.println("result5 = " + result5);
+    }
+
+    @Test
+    public void paging() {
+        // given
+        memberRepository.save(new Member("A", 10));
+        memberRepository.save(new Member("B", 10));
+        memberRepository.save(new Member("C", 10));
+        memberRepository.save(new Member("D", 10));
+        memberRepository.save(new Member("E", 10));
+
+        int age = 10;
+        PageRequest pageRequest = PageRequest.of(1, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+        // when
+        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+//        Slice<Member> slice = memberRepository.findAgeSlice(age, pageRequest);
+
+        // then
+        List<Member> content = page.getContent();
+        for (Member member : content) {
+            System.out.println("member = " + member);
+        }
+
+        // 페이징 안의 요소 갯수
+        System.out.println(content.size());
+
+        // 현재 Paging한 페이지 인덱스
+        System.out.println(page.getNumber());
+
+        // 첫번째 페이지인지 확인
+        System.out.println(page.isFirst());
+
+        // 다음 페이지 있는지 확인
+        System.out.println(page.hasNext());
+
+        // Page 갯수
+        System.out.println(page.getTotalPages());
+
+        // Page 상관없이 전체 요소 갯수
+        System.out.println(page.getTotalElements());
+
+        // slice 이용하여 가져오기
+//        slice.getContent();
     }
 }
