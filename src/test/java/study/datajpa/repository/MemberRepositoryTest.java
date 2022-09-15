@@ -32,6 +32,9 @@ public class MemberRepositoryTest {
     @Autowired
     TeamRepository teamRepository;
 
+    @Autowired
+    MemberQueryRepository memberQueryRepository;
+
     @PersistenceContext
     EntityManager em;
 
@@ -320,6 +323,7 @@ public class MemberRepositoryTest {
         em.flush();
     }
 
+    @Test
     public void lock() {
         // given
         Member member1 = new Member("member1", 10);
@@ -330,5 +334,11 @@ public class MemberRepositoryTest {
         // when
         // hint로 readOnly를 설정해주었다.
         List<Member> result = memberRepository.findLockByUsername("member1");
+    }
+
+    @Test
+    public void callCustom() {
+        List<Member> memberCustom = memberRepository.findMemberCustom();
+        memberQueryRepository.findMember();
     }
 }
