@@ -12,7 +12,7 @@ import static lombok.AccessLevel.*;
 @Getter @Setter
 @ToString(of = {"id", "teamName"})
 @NoArgsConstructor(access = PROTECTED)
-public class Team {
+public class Team extends BaseEntity {
     @Id @GeneratedValue
     @Column(name = "team_id")
     private Long id;
