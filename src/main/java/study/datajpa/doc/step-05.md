@@ -12,3 +12,6 @@
 - -> 위임을 할 시 쿼리 `select m from Member m where m.traceDate.createdDate > ?` 길어짐
 - -> 상속을 할 시 쿼리 `select m from Member m where m.createdDate > ?` 간단 하게 풀림
 - @MappedSuperclass는 속성만 내려쓰는 상속 관계
+
+## Web 확장 - 페이징과 정렬
+- 파라미터로 Pageable 인터페이스만 넘겨주면 파라미터 바인딩 시에 ?page=0&size=3&sort=id,desc 등으로 정렬 가능하다.

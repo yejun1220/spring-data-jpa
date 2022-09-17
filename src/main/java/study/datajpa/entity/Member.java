@@ -31,24 +31,18 @@ public class Member extends BaseEntity{
     @Column(name = "member_id")
     private Long id;
     private String username;
-
-    public Member(String username, int age) {
-        this.username = username;
-        this.age = age;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
     private int age;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
     public Member(String username) {
         this.username = username;
+    }
+
+    public Member(String username, int age) {
+        this.username = username;
+        this.age = age;
     }
 
     public Member(String username, int age, Team team) {
@@ -58,6 +52,10 @@ public class Member extends BaseEntity{
         if (team != null) {
             changeTeam(team);
         }
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public void changeTeam(Team team) {
